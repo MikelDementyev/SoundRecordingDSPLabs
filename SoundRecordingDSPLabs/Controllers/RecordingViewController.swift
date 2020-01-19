@@ -22,7 +22,6 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
     
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
-    var songIndex: Int = 1
     
     private var recorderState: AGAudioRecorderState = .Stop
 
@@ -30,9 +29,6 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         
         recordingSession = AVAudioSession.sharedInstance()
-        if let index = UserDefaults.standard.object(forKey: "songIndex") as? Int {
-            songIndex = index
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +67,9 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     func startRecording() {
-        let fileName = Storage.getDocumentDirectoryUrl().appendingPathComponent("record_\(songIndex).m4a")
+        let format = DateFormatter()
+        format.dateFormat="HH-mm-ss-SSS"
+        let fileName = Storage.getDocumentDirectoryUrl().appendingPathComponent("record-\(format.string(from: Date())).m4a")
         
         let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC), AVSampleRateKey: 12000, AVNumberOfChannelsKey: 1, AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
         
@@ -96,8 +94,6 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
             pauseButton.setImage(#imageLiteral(resourceName: "icon-pause"), for: .normal)
             pauseButton.isHidden = true
             recorderState = .Stop
-            songIndex += 1
-            UserDefaults.standard.set(songIndex, forKey: "songIndex")
         }
     }
 
