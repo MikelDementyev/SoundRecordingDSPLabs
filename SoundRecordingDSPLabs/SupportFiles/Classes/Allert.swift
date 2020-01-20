@@ -11,10 +11,12 @@ import UIKit
 
 class Allert {
     
-    static func displayAllert(_ sender: UIViewController, title: String, message: String = "") {
+    static func displayAllert(_ sender: UIViewController, title: String, message: String = "", completion: @escaping () -> Void = {}) {
         
         let allert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        allert.addAction(UIAlertAction(title: "Ок", style: .default, handler: nil))
+        allert.addAction(UIAlertAction(title: "Ок", style: .default, handler: { _ in
+            completion()
+        }))
         sender.present(allert, animated: true, completion: nil)
     }
 }

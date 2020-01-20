@@ -61,7 +61,11 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
                 DispatchQueue.main.async {
                     if !allowed {
                         self.unloadUI()
-                        Allert.displayAllert(self, title: "Ошибка", message: "Необходим доступ к микрофону")
+                        Allert.displayAllert(self, title: "Ошибка", message: "Необходим доступ к микрофону") {
+                            if let url = URL.init(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
+                        }
                     }
                 }
             }
