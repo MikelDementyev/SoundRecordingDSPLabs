@@ -66,6 +66,9 @@ extension RecodrsListViewController {
         if let player = audioPlayer {
             self.progressTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
                 let normalizedTime = player.currentTime / player.duration
+                if normalizedTime > 0.99 {
+                    self.progressTimer?.invalidate()
+                }
                 cell.progressBar.setProgress(Float(normalizedTime), animated: true)
             }
             RunLoop.current.add(self.progressTimer!, forMode: .common)

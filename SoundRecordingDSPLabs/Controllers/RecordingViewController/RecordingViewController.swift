@@ -81,10 +81,11 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
             audioRecorder = try AVAudioRecorder(url: fileName, settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
-            
+    
             visualisingRecord()
             
             startStopRecording.setImage(#imageLiteral(resourceName: "icon-stop"), for: .normal)
+            startStopRecording.pulsate()
             pauseButton.isHidden = false
         } catch {
             Allert.displayAllert(self, title: "Ups!", message: "Recording failed")
@@ -97,6 +98,7 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
             audioRecorder.stop()
             audioRecorder = nil
             startStopRecording.setImage(#imageLiteral(resourceName: "icon-play"), for: .normal)
+            startStopRecording.layer.removeAllAnimations()
             pauseButton.setImage(#imageLiteral(resourceName: "icon-pause"), for: .normal)
             pauseButton.isHidden = true
             recorderState = .Stop
@@ -104,7 +106,7 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
 
-    @IBAction func record(_ sender: Any) {
+    @IBAction func record(_ sender: UIButton) {
         
         if audioRecorder == nil {
             startRecording()
@@ -120,11 +122,13 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
                 audioRecorder.pause()
                 pauseButton.setImage(#imageLiteral(resourceName: "icon-resume"), for: .normal)
                 stopEngine()
+                startStopRecording.layer.removeAllAnimations()
                 recorderState = .Pause
             } else if recorderState == .Pause {
                 audioRecorder.record()
                 pauseButton.setImage(#imageLiteral(resourceName: "icon-pause"), for: .normal)
                 visualisingRecord()
+                startStopRecording.pulsate()
                 recorderState = .Play
             }
         }

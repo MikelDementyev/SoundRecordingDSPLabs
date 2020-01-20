@@ -51,8 +51,7 @@ class RecodrsListViewController: UITableViewController, AVAudioRecorderDelegate 
             if !player.isPlaying  {
                 if currentRecord.indexPath.row != indexPath {
                     stopPlayerAndOffProgress()
-                    playCurrentRecord(for: path)
-                    return true
+                    return playCurrentRecord(for: path)
                 } else {
                     audioPlayer.play()
                     return true
@@ -63,23 +62,26 @@ class RecodrsListViewController: UITableViewController, AVAudioRecorderDelegate 
             } else if player.isPlaying && currentRecord.indexPath.row != indexPath {
                 stopPlayerAndOffProgress()
                 currentRecord.cell.playButton.setImage(#imageLiteral(resourceName: "icon-resume"), for: .normal)
-                playCurrentRecord(for: path)
-                return true
+                 return playCurrentRecord(for: path)
             }
         } else {
-            playCurrentRecord(for: path)
-            return true
+            return playCurrentRecord(for: path)
         }
         return false
     }
     
-    private func playCurrentRecord(for url: URL) {
+    private func playCurrentRecord(for url: URL) -> Bool{
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer.delegate = self
             audioPlayer.play()
+            return true
         } catch {
-            Allert.displayAllert(self, title: "Ошибка!")
+            Allert.displayAllert(self, title: "Ошибка!", message: "Не удалось открыть файл!")
+            stopPlayerAndOffProgress()
+            currentRecord = nil
+            audioPlayer = nil
+            return false
         }
     }
     
@@ -99,8 +101,9 @@ class RecodrsListViewController: UITableViewController, AVAudioRecorderDelegate 
 extension RecodrsListViewController: AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        player.stop()
         currentRecord.cell.playButton.setImage(#imageLiteral(resourceName: "icon-resume"), for: .normal)
-        currentRecord.cell.progressBar.setProgress(0, animated: false)
+        currentRecord.cell.progressBar.progress = 0
         if let timer = progressTimer {
             timer.invalidate()
         }
