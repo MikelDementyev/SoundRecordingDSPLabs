@@ -19,6 +19,11 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
     
     @IBOutlet weak var startStopRecording: UIButton!
     @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var audioView: AudioVisualizerView!
+    
+    let audioEngine = AVAudioEngine()
+    var renderTs: Double = 0
+    var recordingTs: Double = 0
     
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
@@ -27,7 +32,6 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         recordingSession = AVAudioSession.sharedInstance()
     }
     
@@ -78,6 +82,8 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
             audioRecorder.delegate = self
             audioRecorder.record()
             
+            visualisingRecord()
+            
             startStopRecording.setImage(#imageLiteral(resourceName: "icon-stop"), for: .normal)
             pauseButton.isHidden = false
         } catch {
@@ -94,6 +100,7 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
             pauseButton.setImage(#imageLiteral(resourceName: "icon-pause"), for: .normal)
             pauseButton.isHidden = true
             recorderState = .Stop
+            stopEngine()
         }
     }
 
@@ -112,14 +119,15 @@ class RecodringViewController: UIViewController, AVAudioRecorderDelegate {
             if recorderState == .Play {
                 audioRecorder.pause()
                 pauseButton.setImage(#imageLiteral(resourceName: "icon-resume"), for: .normal)
+                stopEngine()
                 recorderState = .Pause
             } else if recorderState == .Pause {
                 audioRecorder.record()
                 pauseButton.setImage(#imageLiteral(resourceName: "icon-pause"), for: .normal)
+                visualisingRecord()
                 recorderState = .Play
             }
         }
         
     }
 }
-

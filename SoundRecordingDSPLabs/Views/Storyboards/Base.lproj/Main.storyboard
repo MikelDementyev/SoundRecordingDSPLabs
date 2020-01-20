@@ -17,10 +17,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFb-FJ-Oc9">
-                                <rect key="frame" x="132" y="176" width="150" height="150"/>
+                                <rect key="frame" x="100" y="132" width="214" height="214"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="1iY-jm-ayK"/>
-                                    <constraint firstAttribute="height" constant="150" id="FiU-kR-6MW"/>
+                                    <constraint firstAttribute="width" secondItem="gFb-FJ-Oc9" secondAttribute="height" multiplier="1:1" id="FDp-BO-vMK"/>
                                 </constraints>
                                 <state key="normal" image="icon-play"/>
                                 <connections>
@@ -28,34 +27,48 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpw-kO-5oY">
-                                <rect key="frame" x="157" y="376" width="100" height="100"/>
+                                <rect key="frame" x="120" y="376" width="174" height="174"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="IDg-MR-CSa"/>
-                                    <constraint firstAttribute="height" constant="100" id="K20-MA-rd0"/>
+                                    <constraint firstAttribute="width" secondItem="kpw-kO-5oY" secondAttribute="height" multiplier="1:1" id="xtm-rv-3m0"/>
                                 </constraints>
                                 <state key="normal" image="icon-pause"/>
                                 <connections>
                                     <action selector="recordPause:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IHO-BR-aLM"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lmM-87-ZrE" customClass="AudioVisualizerView" customModule="SoundRecordingDSPLabs" customModuleProvider="target">
+                                <rect key="frame" x="20" y="575" width="374" height="187"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="lmM-87-ZrE" secondAttribute="height" multiplier="2:1" id="kju-si-j7Y"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gFb-FJ-Oc9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" multiplier="2" id="Mde-9m-FYb"/>
-                            <constraint firstItem="kpw-kO-5oY" firstAttribute="top" secondItem="gFb-FJ-Oc9" secondAttribute="bottom" constant="50" id="QBS-cY-yct"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gFb-FJ-Oc9" secondAttribute="trailing" constant="100" id="3Ej-O1-GwL"/>
+                            <constraint firstItem="gFb-FJ-Oc9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="93x-ig-Skm"/>
+                            <constraint firstItem="kpw-kO-5oY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="120" id="DJo-Jb-n2V"/>
+                            <constraint firstItem="gFb-FJ-Oc9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" multiplier="1.5" id="Mde-9m-FYb"/>
+                            <constraint firstItem="kpw-kO-5oY" firstAttribute="top" secondItem="gFb-FJ-Oc9" secondAttribute="bottom" constant="30" id="QBS-cY-yct"/>
                             <constraint firstItem="gFb-FJ-Oc9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XjW-49-Fz5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="lmM-87-ZrE" secondAttribute="trailing" constant="20" id="Ybt-TI-n70"/>
+                            <constraint firstItem="lmM-87-ZrE" firstAttribute="top" secondItem="kpw-kO-5oY" secondAttribute="bottom" constant="25" id="gFN-hf-Od6"/>
+                            <constraint firstAttribute="trailing" secondItem="kpw-kO-5oY" secondAttribute="trailing" constant="120" id="jvf-As-Lqk"/>
                             <constraint firstItem="kpw-kO-5oY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rsN-Qd-pgJ"/>
+                            <constraint firstItem="lmM-87-ZrE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="sCv-hg-DY4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="uxB-sP-cNY">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="list.number" catalog="system" style="plain" id="bCd-M4-BwV">
+                        <barButtonItem key="rightBarButtonItem" title="Records List" image="list.number" catalog="system" style="plain" id="bCd-M4-BwV">
                             <connections>
                                 <segue destination="VA8-gv-any" kind="show" identifier="openRecordsList" id="BOZ-WT-n7E"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="audioView" destination="lmM-87-ZrE" id="xu1-XO-4ko"/>
                         <outlet property="pauseButton" destination="kpw-kO-5oY" id="lBH-dE-Osw"/>
                         <outlet property="startStopRecording" destination="gFb-FJ-Oc9" id="ngC-5j-PiQ"/>
                     </connections>
